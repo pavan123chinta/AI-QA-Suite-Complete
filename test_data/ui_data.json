@@ -1,0 +1,28 @@
+{
+  "login": {
+    "valid_user": {
+      "username": "tomsmith",
+      "password": "SuperSecretPassword!",
+      "expected_message": "You logged into a secure area!"
+    },
+    "invalid_username": {
+      "username": "invalid_qa_user",
+      "password": "SuperSecretPassword!",
+      "expected_message": "Your username is invalid!"
+    },
+    "invalid_password": {
+      "username": "tomsmith",
+      "password": "WrongPassword123!",
+      "expected_message": "Your password is invalid!"
+    },
+    "empty_credentials": {
+      "username": "",
+      "password": "",
+      "expected_message": "Your username is invalid!"
+    }
+  },
+  "navigation": {
+    "expected_home_title": "The Internet",
+    "expected_header": "Welcome to the-internet"
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "posts": {
+    "valid_post": {
+      "title": "AI-Driven Automation Best Practices",
+      "body": "Integrating AI agents with standard test suites accelerates validation.",
+      "userId": 1
+    },
+    "updated_post": {
+      "id": 1,
+      "title": "Updated Title via AI-QA-Suite PUT",
+      "body": "Updated full body text for resource 1.",
+      "userId": 1
+    },
+    "patch_post": {
+      "title": "Partially Patched Title"
+    },
+    "invalid_post": {
+      "title": ""
+    }
+  },
+  "users": {
+    "sample_user": {
+      "id": 1,
+      "name": "Leanne Graham",
+      "username": "Bret",
+      "email": "Sincere@april.biz"
+    }
+  },
+  "negative_cases": [
+    {
+      "description": "Non-existent post ID",
+      "post_id": 99999,
+      "expected_status": 404
+    },
+    {
+      "description": "Invalid string ID format",
+      "post_id": "invalid_id_xyz",
+      "expected_status": 404
+    }
+  ]
+}

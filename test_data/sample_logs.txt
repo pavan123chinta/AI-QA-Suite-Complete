@@ -1,0 +1,15 @@
+2026-09-28 10:14:02.112 [INFO] [AuthService] Incoming login request for user_id='usr_88219' from IP 192.168.1.45
+2026-09-28 10:14:02.340 [INFO] [AuthService] Password verified successfully. Generating JWT token.
+2026-09-28 10:14:02.890 [INFO] [TokenService] Token generated with expiry=3600s
+2026-09-28 10:14:15.500 [INFO] [OrderService] Starting checkout workflow for cart_id='cart_9921'
+2026-09-28 10:14:16.120 [WARN] [InventoryService] Stock for SKU_5512 is low (2 units remaining)
+2026-09-28 10:14:17.330 [ERROR] [PaymentGateway] Connection timed out while reaching upstream processor https://payment.partner.bank/v2/charge after 5000ms
+2026-09-28 10:14:17.332 [ERROR] [OrderService] Checkout failed for cart_id='cart_9921' - PaymentGatewayTimeoutException: Upstream gateway 504 Gateway Timeout
+2026-09-28 10:14:17.335 [ERROR] [OrderService] StackTrace:
+com.ecommerce.payment.exception.PaymentGatewayTimeoutException: Read timed out connecting to payment.partner.bank
+    at com.ecommerce.payment.client.BankClient.charge(BankClient.java:128)
+    at com.ecommerce.order.service.OrderService.processPayment(OrderService.java:84)
+    at com.ecommerce.order.controller.OrderController.checkout(OrderController.java:52)
+2026-09-28 10:14:18.005 [INFO] [NotificationService] User notified of transaction failure.
+2026-09-28 10:15:00.110 [ERROR] [DatabasePool] Connection pool exhausted: active_connections=100, max_connections=100, waiting_threads=14
+2026-09-28 10:15:00.115 [ERROR] [UserService] Failed to acquire DB connection for query SELECT * FROM users WHERE status = 'ACTIVE'

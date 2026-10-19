@@ -1,0 +1,35 @@
+{
+  "requirements": [
+    {
+      "id": "REQ-AUTH-001",
+      "module": "Authentication",
+      "text": "User should be able to log into the application using a valid username and password. In case of invalid credentials, a clear error banner must be displayed without exposing backend system details."
+    },
+    {
+      "id": "REQ-PAY-002",
+      "module": "Checkout & Payments",
+      "text": "The payment API must accept VISA, Mastercard, and Amex cards. Transactions above $10,000 require two-factor authentication. Zero or negative amounts must return HTTP 400 Bad Request."
+    },
+    {
+      "id": "REQ-SEARCH-003",
+      "module": "Search & Catalog",
+      "text": "Users can search products by keyword with auto-complete. Results should load in under 500ms and paginate 20 items per page. Special SQL/HTML characters should be sanitized."
+    }
+  ],
+  "sample_bugs": [
+    {
+      "id": "BUG-101",
+      "title": "NullPointerException when checking out with empty coupon code",
+      "description": "Clicking 'Apply Coupon' with whitespace or null payload triggers a 500 Internal Server Error in the OrderService microservice.",
+      "error_message": "HTTP 500: java.lang.NullPointerException: Cannot invoke 'String.trim()' because 'couponCode' is null at com.ecommerce.order.service.CouponValidator.validate(CouponValidator.java:42)",
+      "stack_trace": "java.lang.NullPointerException: couponCode is null\n\tat com.ecommerce.order.service.CouponValidator.validate(CouponValidator.java:42)\n\tat com.ecommerce.order.controller.CheckoutController.applyCoupon(CheckoutController.java:118)"
+    },
+    {
+      "id": "BUG-102",
+      "title": "Login page button locator failed after frontend styling redesign",
+      "description": "UI automation failed because button ID 'submit-btn-v1' was changed to class '.auth-primary-action' during sprint release.",
+      "error_message": "Playwright TimeoutError: locator('#submit-btn-v1') timed out waiting after 15000ms",
+      "stack_trace": "playwright._impl._errors.TimeoutError: Page.click: Timeout 15000ms exceeded.\nCall log:\n  - waiting for locator(\"#submit-btn-v1\")"
+    }
+  ]
+}
