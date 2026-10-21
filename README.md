@@ -1,6 +1,6 @@
 # AI-QA-Suite: AI-Powered QA Automation Framework
 
-[![CI/CD Pipeline](https://github.com/chint/AI-QA-Suite/actions/workflows/ci.yml/badge.svg)](https://github.com/chint/AI-QA-Suite/actions)
+[![CI/CD Pipeline](https://github.com/pavan123chinta/AI-QA-Suite-Complete/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/pavan123chinta/AI-QA-Suite-Complete/actions/workflows/ci.yml)
 ![Python Version](https://img.shields.io/badge/Python-3.11%20%7C%203.12%20%7C%203.13-blue)
 ![Pytest](https://img.shields.io/badge/Pytest-8.0%2B-green)
 ![Playwright](https://img.shields.io/badge/Playwright-UI%20Automation-purple)
