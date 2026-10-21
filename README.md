@@ -46,8 +46,8 @@ graph TD
     A[Requirements / User Stories] --> B[AI Test Case Generator]
     B --> C[Structured Test Cases]
     C --> D[Pytest Test Runner]
-    D --> E[API Automation Layer (Requests)]
-    D --> F[UI Automation Layer (Playwright POM)]
+    D --> E["API Automation Layer (Requests)"]
+    D --> F["UI Automation Layer (Playwright POM)"]
     D --> G[Self-Healing Locators]
     E --> H[Target System / Endpoints]
     F --> H
