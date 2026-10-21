@@ -158,7 +158,7 @@ python -m pytest --html=reports/report.html --self-contained-html
 # Run API tests only
 python -m pytest tests/api/
 
-# Run UI tests only
+# Run UI tests only (headless)
 python -m pytest tests/ui/
 
 # Run AI feature tests only
@@ -170,6 +170,24 @@ python -m pytest -m self_healing
 # Run Smoke suite
 python -m pytest -m smoke
 ```
+
+### Running UI Tests with a Visible Browser
+
+By default, UI tests execute in headless mode. You can run tests with a visible Chromium browser window and slowed execution for demonstration and visual debugging:
+
+1. Standard headless UI test execution:
+   ```bash
+   pytest -v tests/ui/
+   ```
+
+2. Visible browser execution in Git Bash on Windows:
+   ```bash
+   HEADLESS=false SLOW_MO=500 pytest -v tests/ui/
+   ```
+
+- `HEADLESS=false` temporarily overrides the default browser mode to make the browser visible during test runs.
+- `SLOW_MO=500` slows interactions by 500ms between actions for demonstration purposes.
+- Note: The UI test suite currently contains 15 tests, but the test count may not remain fixed as tests are added or updated.
 
 ### Interactive CLI Runner & AI Demo
 ```bash
@@ -202,5 +220,5 @@ To ensure accessibility and deterministic CI/CD execution without financial cost
 ---
 
 ## 📊 Documentation Links
-- [Detailed Framework Architecture](file:///c:/Users/chint/Projects/AI-QA-Suite-Complete/docs/architecture.md)
-- [Comprehensive Interview Guide & Q&A](file:///c:/Users/chint/Projects/AI-QA-Suite-Complete/docs/interview_explanation.md)
+- [Architecture](docs/architecture.md)
+- [Interview Explanation](docs/interview_explanation.md)
