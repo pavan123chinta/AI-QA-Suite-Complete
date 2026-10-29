@@ -1,0 +1,2 @@
+# Ensure consistent line endings across all platforms and containers
+* text=auto eol=lf
