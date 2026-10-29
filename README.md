@@ -13,6 +13,38 @@ The framework unites standard automation tooling (**Pytest**, **Requests**, **Pl
 
 ---
 
+## ⚡ Quickstart (TL;DR)
+
+Get up and running immediately with either the containerized workflow or a local Python virtual environment:
+
+### Option A: Run via Docker Compose (Recommended - Isolated Docker Environment)
+Ensure Docker Desktop is running, then execute:
+```bash
+docker compose up --abort-on-container-exit
+```
+*Executes all 33 tests inside an isolated Linux container and generates the self-contained HTML report directly into `reports/report.html` on your host machine.*
+
+### Option B: Run Locally (Python 3.10+)
+```bash
+# 1. Setup virtual environment & dependencies
+python -m venv venv
+# Windows: .\venv\Scripts\activate  |  macOS/Linux: source venv/bin/activate
+pip install --upgrade pip && pip install -r requirements.txt
+python -m playwright install chromium
+
+# 2. Run test suite with HTML report generation
+python -m pytest --html=reports/report.html --self-contained-html
+```
+
+### Viewing the Execution Report
+Once execution finishes, open the generated self-contained report in any browser:
+- **Windows (PowerShell)**: `Start-Process reports/report.html`
+- **macOS**: `open reports/report.html`
+- **Linux**: `xdg-open reports/report.html`
+
+---
+
+
 ## 🚀 Key Features
 
 ### 1. Robust REST API Automation Layer
@@ -331,12 +363,13 @@ In UI automation, locator drift due to DOM redesigns is a primary cause of test 
 
 ### What It Does:
 1. Intercepts locator timeout exceptions during execution.
-2. Evaluates an ordered list of fallback selectors defined in the test or page model.
+2. Evaluates an ordered list of prioritized fallback selectors defined in the test or page model (`ID` ➔ `data-testid` ➔ `Semantic Attribute` ➔ `XPath/Text`).
 3. Once an element is found, it logs a `HEALED` telemetry event with the failed locator and the successful replacement.
 4. If all fallbacks fail, it queries the AI provider to recommend resilient locators from DOM context for developer review.
 
 ### What It Does Not Do:
-- It does **not** make unverified claims of autonomously rewriting repository source code in production without engineer oversight. It maintains test execution stability while recording actionable telemetry.
+- **No Unsupervised Autonomous DOM Repair**: It does **not** claim to autonomously modify live production code or rewrite application HTML in real time without human review.
+- **Architectural Reality**: It operates as an **in-memory resilient execution strategy** that prevents pipeline flakiness and equips engineers with actionable AI-assisted locator suggestions for permanent maintenance.
 
 ---
 
