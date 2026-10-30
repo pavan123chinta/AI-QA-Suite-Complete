@@ -142,3 +142,76 @@ class TestSelfHealingLocators:
 
         # Verify UI test succeeded past the healed interaction
         assert login_page.is_logged_in(), "Login should succeed after healed click"
+
+    def test_self_healing_all_fallbacks_fail_triggers_ai_suggestion(self, page: Page):
+        """
+        Verify that when primary AND all fallback locators fail,
+        the AI suggestion path is triggered and helpful recommendations are included in TimeoutError.
+        """
+        LoginPage(page).load()
+
+        broken_primary = "#completely-non-existent-id-123"
+        failing_fallbacks = [
+            ".completely-non-existent-class-123",
+            "//div[@data-non-existent='true']",
+        ]
+
+        healer = SelfHealingLocator(
+            page=page,
+            element_name="Submit Button",
+            primary_locator=broken_primary,
+            fallback_locators=failing_fallbacks,
+        )
+
+        with pytest.raises(TimeoutError) as exc_info:
+            healer.find(timeout=500)
+
+        err_msg = str(exc_info.value)
+        assert "Failed to locate 'Submit Button'" in err_msg
+        assert "AI Recommendation" in err_msg
+        assert len(healer.healing_events) == 0
+
+    def test_self_healing_extracts_runtime_dom_context(self, page: Page):
+        """
+        Verify that SelfHealingLocator captures sanitized, bounded runtime DOM context
+        from the active page rather than a hardcoded static snippet.
+        """
+        login_page = LoginPage(page).load()
+        login_page.fill(login_page.PASSWORD_INPUT, "SuperSecretPassword!")
+
+        healer = SelfHealingLocator(
+            page=page,
+            element_name="Login Submit Button",
+            primary_locator="#broken-button-locator",
+        )
+
+        dom_context = healer._extract_bounded_dom_context(max_chars=800)
+
+        assert isinstance(dom_context, str)
+        assert len(dom_context) > 0
+        assert len(dom_context) <= 850  # Bounded within max_chars + truncation suffix
+        assert "<form" in dom_context or "button" in dom_context
+        # Ensure sensitive user password attributes are not leaked in DOM context
+        assert "SuperSecretPassword!" not in dom_context
+        assert "[REDACTED]" in dom_context
+
+    def test_self_healing_dom_context_fallback_when_page_closed(self, page: Page):
+        """
+        Verify that if the page is closed or inaccessible, DOM extraction degrades
+        gracefully to a placeholder without crashing or masking failures.
+        """
+        LoginPage(page).load()
+        page.close()  # Simulate closed / crashed browser page
+
+        healer = SelfHealingLocator(
+            page=page,
+            element_name="Detached Button",
+            primary_locator="#broken-locator",
+        )
+
+        dom_context = healer._extract_bounded_dom_context()
+        assert "unavailable" in dom_context or "failed" in dom_context
+
+        # Requesting AI suggestion with closed page should still safely return AI suggestions
+        ai_suggestion = healer.request_ai_locator_suggestion()
+        assert "suggested_locators" in ai_suggestion
